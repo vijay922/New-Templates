@@ -66,7 +66,7 @@ http:
           - "{{blind}}"
 
     host-redirects: true
-    max-redirects: 3
+    max-redirects: 5
 
     stop-at-first-match: true
     matchers-condition: and
@@ -74,26 +74,7 @@ http:
       - type: word
         part: body
         words:
-          - "{{script_payload_1}}"
-          - "{{script_payload_2}}"
-          - "{{script_payload_3}}"
-          - "{{script_payload_4}}"
-          - "{{script_payload_5}}"
-          - "{{script_payload_6}}"
-          - "{{script_payload_7}}"
-          - "{{script_payload_8}}"
-          - "{{script_payload_9}}"
-          - "{{script_payload_10}}"
-          - "{{script_payload_11}}"
-          - "{{script_payload_12}}"
-          - "{{script_payload_13}}"
-          - "{{script_payload_14}}"
-          - "{{script_payload_15}}"
-          - "{{script_payload_16}}"
-          - "{{script_payload_17}}"
-          - "{{script_payload_18}}"
-          - "{{script_payload_19}}"
-          - "{{script_payload_20}}"
+          - "11596"
       - type: word
         part: header
         words:
