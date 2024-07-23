@@ -1,0 +1,50 @@
+id: toxicache-reflection
+
+info:
+  name: Toxicache Header Reflection
+  author: Vijay
+  severity: medium
+  tags: header, reflection
+
+requests:
+  - raw:
+      - |
+        GET {{BaseURL}} HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: {{UserAgent}}
+        X-Forwarded-Host: itmevijay.com
+        X-Forwarded-For: itmevijay.com
+        X-Rewrite-Url: itmevijay.com
+        X-Host: itmevijay.com
+        Handle: itmevijay.com
+        H0st: itmevijay.com
+        Origin: itmevijay.com
+        Transfer-Encoding: itmevijay.com
+        X-Original-Url: itmevijay.com
+        X-Original-Host: itmevijay.com
+        X-Forwarded-Prefix: itmevijay.com
+        X-Amz-Server-Side-Encryption: itmevijay.com
+        X-Amz-Website-Redirect-Location: itmevijay.com
+        Trailer: itmevijay.com
+        Fastly-Ssl: itmevijay.com
+        Fastly-Host: itmevijay.com
+        Fastly-Ff: itmevijay.com
+        Fastly-Client-ip: itmevijay.com
+        Content-Type: itmevijay.com
+        Api-Version: itmevijay.com
+        AcunetiX-Header: itmevijay.com
+        Accept-Version: itmevijay.com
+        X-Forwarded-Proto: 13377
+        X-Forwarded-Host: itmevijay.com
+        X-Forwarded-Scheme: http
+
+    matchers:
+      - type: word
+        words:
+          - "itmevijay.com"
+        part: body
+		
+      - type: word
+        words:
+          - "itmevijay.com"
+        part: headers
