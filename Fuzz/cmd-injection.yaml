@@ -101,6 +101,7 @@ requests:
         - "id > /dev/null; ftp -o /dev/null ftp://{{marker}}"
         - "ls > /dev/null; nc -z {{marker}} 80"
         - "%26id%26"
+        - ""\`id`""
     fuzzing:
       - part: query
         type: postfix
